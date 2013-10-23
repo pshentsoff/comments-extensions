@@ -1,0 +1,224 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Comments Extensions\n"
+"POT-Creation-Date: 2013-08-08 17:13+0600\n"
+"PO-Revision-Date: 2013-08-08 17:15+0600\n"
+"Last-Translator: \n"
+"Language-Team: pshentsoff <mail@pshentsoff.ru>\n"
+"Language: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_c;_e\n"
+"X-Poedit-Basepath: T:\\home\\const\\fhall\\wp-content\\\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: plugins\\comments-extensions\n"
+"X-Poedit-SearchPath-1: themes\n"
+
+#: plugins\comments-extensions/comments-extensions.php:75
+msgid "Name"
+msgstr "Имя"
+
+#: plugins\comments-extensions/comments-extensions.php:77
+msgid "Email"
+msgstr "Email"
+
+#: plugins\comments-extensions/comments-extensions.php:86
+#: themes/fitness-hall-main/functions.php:180
+msgid "Club"
+msgstr "Клуб"
+
+#: plugins\comments-extensions/comments-extensions.php:88
+msgid "Please, select club"
+msgstr "Пожалуйста, укажите клуб"
+
+#: plugins\comments-extensions/comments-extensions.php:141
+msgid "Not selected."
+msgstr "Не указан."
+
+#: themes/fitness-hall/comments.php:17
+#: themes/fitness-hall-main/comments.php:17
+msgid ""
+"This post is password protected. Enter the password to view any comments."
+msgstr ""
+
+#: themes/fitness-hall/comments.php:40 themes/fitness-hall/comments.php:60
+#: themes/fitness-hall-main/comments.php:40
+#: themes/fitness-hall-main/comments.php:60
+msgid "Comment navigation"
+msgstr "Навигация по комментариям"
+
+#: themes/fitness-hall/comments.php:41 themes/fitness-hall/comments.php:61
+#: themes/fitness-hall-main/comments.php:41
+#: themes/fitness-hall-main/comments.php:61
+msgid "&larr; Older Comments"
+msgstr "&larr; Поздние комментарии"
+
+#: themes/fitness-hall/comments.php:42 themes/fitness-hall/comments.php:62
+#: themes/fitness-hall-main/comments.php:42
+#: themes/fitness-hall-main/comments.php:62
+msgid "Newer Comments &rarr;"
+msgstr "Последние комментарии &rarr;"
+
+#: themes/fitness-hall/comments.php:72
+#: themes/fitness-hall-main/comments.php:72
+msgid "Comments are closed."
+msgstr ""
+
+#: themes/fitness-hall/functions.php:12
+#: themes/fitness-hall-main/functions.php:12
+#: themes/fitness-hall-pink/functions.php:12
+msgid "Primary Navigation"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:13
+#: themes/fitness-hall-main/functions.php:13
+#: themes/fitness-hall-pink/functions.php:13
+msgid "Footer Navigation"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:14
+#: themes/fitness-hall-main/functions.php:14
+#: themes/fitness-hall-pink/functions.php:14
+msgid "Sidebar Navigation"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:46
+#: themes/fitness-hall-main/functions.php:46
+#: themes/fitness-hall-pink/functions.php:46
+msgid "Header Top-Right"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:48
+#: themes/fitness-hall-main/functions.php:48
+#: themes/fitness-hall-pink/functions.php:48
+msgid "The top-right header widget area, for social pictogramms"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:54
+#: themes/fitness-hall-main/functions.php:54
+#: themes/fitness-hall-pink/functions.php:54
+msgid "Slider"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:56
+#: themes/fitness-hall-main/functions.php:56
+#: themes/fitness-hall-pink/functions.php:56
+msgid "Header slider widget area"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:62
+#: themes/fitness-hall-main/functions.php:62
+#: themes/fitness-hall-pink/functions.php:62
+msgid "Secondary Header Block - Left"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:64
+#: themes/fitness-hall-main/functions.php:64
+#: themes/fitness-hall-pink/functions.php:64
+msgid "The left secondary header widget area"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:74
+#: themes/fitness-hall-main/functions.php:74
+#: themes/fitness-hall-pink/functions.php:74
+msgid "Secondary Header Block - Right"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:76
+#: themes/fitness-hall-main/functions.php:76
+#: themes/fitness-hall-pink/functions.php:76
+msgid "The right secondary header widget area"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:85
+#: themes/fitness-hall-main/functions.php:85
+#: themes/fitness-hall-pink/functions.php:85
+msgid "Right Sidebar Widget Area"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:87
+#: themes/fitness-hall-main/functions.php:87
+#: themes/fitness-hall-pink/functions.php:87
+msgid "The right sidebar widget area"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:96
+#: themes/fitness-hall-main/functions.php:96
+#: themes/fitness-hall-pink/functions.php:96
+msgid "Footer Left Widget Area"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:98
+#: themes/fitness-hall-main/functions.php:98
+#: themes/fitness-hall-pink/functions.php:98
+msgid "The footer left widget area"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:105
+#: themes/fitness-hall-main/functions.php:105
+#: themes/fitness-hall-pink/functions.php:105
+msgid "Footer Widget Area"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:107
+#: themes/fitness-hall-main/functions.php:107
+#: themes/fitness-hall-pink/functions.php:107
+msgid "The footer widget area"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:115
+#: themes/fitness-hall-main/functions.php:115
+#: themes/fitness-hall-pink/functions.php:115
+msgid "Footer Right Widget Area"
+msgstr ""
+
+#: themes/fitness-hall/functions.php:117
+#: themes/fitness-hall-main/functions.php:117
+#: themes/fitness-hall-pink/functions.php:117
+msgid "The footer right widget area"
+msgstr ""
+
+#: themes/fitness-hall/header.php:25 themes/fitness-hall-main/header.php:25
+#: themes/fitness-hall-pink/header.php:25
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: themes/fitness-hall-main/functions.php:145
+msgid "Pingback:"
+msgstr ""
+
+#: themes/fitness-hall-main/functions.php:145
+#: themes/fitness-hall-main/functions.php:174
+msgid "Edit"
+msgstr ""
+
+#: themes/fitness-hall-main/functions.php:162
+#, php-format
+msgid "%1$s от %2$s <span class=\"says\">написал(а):</span>"
+msgstr ""
+
+#: themes/fitness-hall-main/functions.php:169
+#, php-format
+msgid "%1$s"
+msgstr ""
+
+#: themes/fitness-hall-main/functions.php:186
+msgid "Ваше сообщение ожидает модерации."
+msgstr ""
+
+#: themes/fitness-hall-main/functions.php:195
+msgid "Ответить <span>&darr;</span>"
+msgstr ""
+
+#: themes/fitness-hall-main/functions.php:214
+#, php-format
+msgid ""
+"<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel="
+"\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</"
+"time></a><span class=\"by-author\"> <span class=\"sep\"> by </span> <span "
+"class=\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" title=\"%6$s\" "
+"rel=\"author\">%7$s</a></span></span>"
+msgstr ""
