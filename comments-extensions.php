@@ -3,7 +3,7 @@
 Plugin Name: Comments Extensions
 Plugin URI:
 Description: Plugin extends comment fields
-Version: 0.0.9
+Version: 0.2.1
 Author: Vadim Pshentsov
 Author URI: http://pshentsoff.ru
 License: Apache License, Version 2.0
@@ -29,41 +29,157 @@ Domain Path: /languages
 define('COMMENTS_EXTENSIONS_TEXT_DOMAIN', 'comments-extensions');
 add_action('plugins_loaded', 'comments_extensions_init');
 
-//if ( is_admin() ) {
-//
-//    /* Configuration Page */
-//    function comments_extensions_admin_menu() {
-//        add_options_page(
-//            __( 'Comments extensions options', 'comments-extensions' ),
-//            __( 'Comments extensions', 'comments-extensions' ),
-//            'manage_options',
-//            'comments-extensions',
-//            'comments_extensions_options'
-//        );
-//    }
-//    add_action( 'admin_menu','comments_extensions_admin_menu' );
-//
-//    function comments_extensions_options() {
-//        // Security check
-//        if (
-//            function_exists( 'current_user_can' )
-//            && !current_user_can( 'manage_options' )
-//        ) {
-//            die( __( 'Cheatin&#8217; uh?' ) );
-//        }
-//
-//        if($_POST['action'] == 'comments_extensions_update') {
-//            check_admin_referer('comments_extensions_update', 'comments_extensions_update_nonce');
-//        }
-//
-//        ?>
-<!--        <form method="post" action="">-->
-<!--            --><?php //wp_nonce_field('comments_extensions_update', 'comments_extensions_update_nonce'); ?>
-<!--        </form>-->
+/**
+ * Function return set of options with info
+ *
+ * @return array of options
+ */
+function comments_extensions_get_options() {
+    return array(
+        'comments_extensions_clubs_list' => array(
+            'type' => 'textarea',
+            'default' => '',
+            'title' => __( 'List of values pairs:', 'comments-extensions' ),
+            'desc' => __('Pairs like "unique key => string value", one pre line, no quotas.', 'comments-extensions'),
+            'class' => 'comments-extensions-clubs-list',
+        ),
+    );
+}
+
+if ( is_admin() ) {
+
+    /* Configuration Page */
+    function comments_extensions_admin_menu() {
+        add_options_page(
+            __( 'Comments extensions options', 'comments-extensions' ),
+            __( 'Comments extensions', 'comments-extensions' ),
+            'manage_options',
+            'comments-extensions',
+            'comments_extensions_options'
+        );
+    }
+    add_action( 'admin_menu','comments_extensions_admin_menu' );
+
+    function comments_extensions_options() {
+        // Security check
+        if (
+            function_exists( 'current_user_can' )
+            && !current_user_can( 'manage_options' )
+        ) {
+            die( __( 'Cheatin&#8217; uh?' ) );
+        }
+
+        /* Get options info */
+        $comments_extensions_options = comments_extensions_get_options();
+
+        /* Update settings if submit action */
+        if($_POST['action'] == 'comments_extensions_update') {
+
+            check_admin_referer('comments_extensions_update', 'comments_extensions_update_nonce');
+
+            foreach($comments_extensions_options as $option_name => $option_info) {
+
+                if(($option_name == 'comments_extensions_clubs_list') && (isset($_POST[$option_name]) && !empty($_POST[$option_name]))) {
+                    $lines = explode("\n", $_POST[$option_name]);
+                    $clubs_list = array();
+                    foreach ($lines as $line) {
+                        $line = trim($line);
+                        if(empty($line)) continue;
+                        $pair = explode('=>',$line);
+                        $clubs_list[trim($pair[0])] = trim($pair[1]);
+                    }
+                    update_option($option_name, $clubs_list);
+                } else {
+                    update_option($option_name, $_POST[$option_name]);
+                }
+            }
+
+            $_POST['notice'] = __('Settings saved.');
+        }
+
+        ?>
+        <?php
+        // Show notice
+        if( $_POST['notice'] )
+        {
+            ?>
+            <div id='message' class='updated fade'><p><?php echo $_POST['notice']; ?></p></div>
+        <?php
+        }
+        ?>
+    <div class='wrap'>
+        <?php screen_icon(); ?>
+        <h2><?php _e("Comments Extensions Settings", COMMENTS_EXTENSIONS_TEXT_DOMAIN); ?></h2>
+        <form method="post" action="">
+            <?php wp_nonce_field('comments_extensions_update', 'comments_extensions_update_nonce'); ?>
+            <table class="form-table">
+                <tbody>
+            <?php
+            foreach($comments_extensions_options as $option_name => $option_info) {
+                
+                $option_value = get_option($option_name);
+
+                if($option_name == 'comments_extensions_clubs_list') {
+                    $lines = '';
+                    foreach ($option_value as $key => $value) {
+                        if(empty($key) || empty($value)) continue;
+                        $lines .= $key.' => '.$value."\n";
+                    }
+                    $option_value = $lines;
+                }
+
+                ?>
+                <tr valign='top'>
+                    <th scope='row'>
+                        <label for='<?php echo esc_attr( $option_name ); ?>'><?php echo $option_info['title']; ?></label>
+                    </th>
+                    <td>
+                <?php
+                switch($option_info['type']) {
+                    case 'textarea':
+                        echo "<textarea type='text' name='$option_name' id='$option_name' ";
+                        if(isset($option_info['class'])) echo "class='".$option_info['class']."' ";
+                        echo "style='width: 300px; height: 264px;' ";
+                        echo '>';
+                        echo $option_value;
+                        echo '</textarea>' . "\n";;
+                        break;
+                    case 'checkbox':
+                        $checked = ( $option_value ? 'checked="checked" ' : '' );
+                        echo '<input type="hidden" name="' . $option_name . '" value="0"/>' . "\n";
+                        echo '<input type="checkbox" name="' . $option_name . '" value="1" id="' . $option_name. '" ' . $checked;
+                        if(isset($option_info['class'])) echo " class='".$option_info['class']."' ";
+                        echo ' />' . "\n";
+                        break;
+                    default:
+                        echo "<input type='text' name='$option_name' id='$option_name' ";
+                        if(isset($option_info['class'])) echo "class='".$option_info['class']."' ";
+                        echo '/>' . "\n";;
+                        break;
+                }
+
+                ?>
+                        <br /><small><?php echo $option_info['desc']; ?></small>
+                    </td>
+                </tr>
+            <?php
+            }
+            ?>
+                <tr valign='top'>
+                    <th scope='row'></th>
+                    <td>
+                        <input name='Submit' class='button button-primary' value='<?php _e( 'Save Changes' ); ?>' type='submit' />
+                        <input name='action' value='comments_extensions_update' type='hidden' />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
 <?php
-//    }
-//
-//}
+    }
+
+}
 /**
  * Actions on plugin init
  */
@@ -76,15 +192,11 @@ function comments_extensions_init() {
  * @return array of clubs
  */
 function comments_extensions_get_clubs_list() {
-    return array(
-        'all' => 'О сети в целом',
-        'birulevo' => 'Бирюлево',
-        'butovo' => 'Бутово',
-        'sokol' => 'м. Аэропорт, Сокол',
-        'filevsky' => 'м. Филевский парк',
-        'scherbinka' => 'Щербинка',
-        'yuzhnaya' => 'м. Южная'
-    );
+
+    //@todo make it some kind of session static to prevent reading from DB on every comment
+    $clubs_list = get_option('comments_extensions_clubs_list');
+
+    return $clubs_list;
 }
 
 /**
@@ -113,8 +225,8 @@ function comments_extensions_comment_form_defaults($default) {
     $default['fields']['email']  = '<p class="comment-form-email"><label for="email">' . __( 'Email', COMMENTS_EXTENSIONS_TEXT_DOMAIN ) . '</label> ' . ( $req ? '<span class="required">*</span>' : '' ) .
             '<input id="email" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /></p>';
 
-    $default['title_reply'] = 'Ваше сообщение:';
-    $default['label_submit'] = 'Отправить сообщение';
+    $default['title_reply'] = __( 'Your message', COMMENTS_EXTENSIONS_TEXT_DOMAIN );
+    $default['label_submit'] = __( 'Send message', COMMENTS_EXTENSIONS_TEXT_DOMAIN );
 
     //Club selection list
     $club_list = comments_extensions_get_clubs_list();
@@ -128,8 +240,6 @@ function comments_extensions_comment_form_defaults($default) {
     $comment_club_field .= '</select>';
     $comment_club_field .= '</p>';
     $default['fields']['club'] = $comment_club_field;
-
-//    echo '<pre>'.print_r($default, true).'</pre>';
 
     return $default;
 }
@@ -149,11 +259,8 @@ function comments_extensions_comment_post( $comment_id ) {
 add_filter('the_comments','comments_extensions_the_comments');
 function comments_extensions_the_comments($comments, &$oWP_Comment_Query) {
 
-//    echo '<pre>'.print_r($comments, true).'</pre>';
-
     foreach($comments as $key => $comment) {
         $comment = comments_extensions_get_comment($comment);
-//        echo '<pre>'.print_r($comment, true).'</pre>';
         $comment->comment_author .= ' ('.$comment->comment_club.')';
         $comments[$key] = $comment;
     }
@@ -168,8 +275,6 @@ add_filter('get_comment', 'comments_extensions_get_comment');
  * @return StdClass object
  */
 function comments_extensions_get_comment($comment) {
-
-//    echo '<pre>'.print_r($comment, true).'</pre>';
 
     $club_id = get_comment_meta($comment->comment_ID, 'club', true);
 
