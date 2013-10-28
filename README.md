@@ -3,7 +3,7 @@ Comments extensions
 
 Simple Wordpress plugin that extends standard comments functionality.
 
-        Version: 0.2.1
+        Version: 0.2.2
         Contributors: pshentsoff
         Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FGRFBSFEW5V3Y
         Tags: comments
