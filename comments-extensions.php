@@ -3,7 +3,7 @@
 Plugin Name: Comments Extensions
 Plugin URI:
 Description: Plugin extends comment fields
-Version: 0.2.1
+Version: 0.2.2
 Author: Vadim Pshentsov
 Author URI: http://pshentsoff.ru
 License: Apache License, Version 2.0
@@ -46,6 +46,9 @@ function comments_extensions_get_options() {
     );
 }
 
+/**
+ * Admin area
+ */
 if ( is_admin() ) {
 
     /* Configuration Page */
@@ -116,7 +119,7 @@ if ( is_admin() ) {
                 <tbody>
             <?php
             foreach($comments_extensions_options as $option_name => $option_info) {
-                
+
                 $option_value = get_option($option_name);
 
                 if($option_name == 'comments_extensions_clubs_list') {
@@ -180,6 +183,7 @@ if ( is_admin() ) {
     }
 
 }
+
 /**
  * Actions on plugin init
  */
@@ -200,7 +204,7 @@ function comments_extensions_get_clubs_list() {
 }
 
 /**
- * Function retrun club name by club id
+ * Function return club name by club id
  * @param $club_id
  * @return string - club name or empty string
  */
@@ -233,7 +237,7 @@ function comments_extensions_comment_form_defaults($default) {
     $comment_club_field = '<p class="comment-form-club">';
     $comment_club_field .= '<label for="club">'.__('Club', COMMENTS_EXTENSIONS_TEXT_DOMAIN).'</label>';
     $comment_club_field .= '<select id="club" name="club">';
-    $comment_club_field .= '<option>'.__('Please, select club', COMMENTS_EXTENSIONS_TEXT_DOMAIN).'</option>';
+    $comment_club_field .= '<option value="">'.__('Please, select club', COMMENTS_EXTENSIONS_TEXT_DOMAIN).'</option>';
     foreach($club_list as $club_id => $club_name) {
         $comment_club_field .= '<option value="'.$club_id.'">'.$club_name.'</option>';
     }
@@ -259,13 +263,24 @@ function comments_extensions_comment_post( $comment_id ) {
 add_filter('the_comments','comments_extensions_the_comments');
 function comments_extensions_the_comments($comments, &$oWP_Comment_Query) {
 
+    $result = array();
+
+    $filtered = isset($_REQUEST['filter_club']) && !empty($_REQUEST['filter_club']);
+
     foreach($comments as $key => $comment) {
         $comment = comments_extensions_get_comment($comment);
-        $comment->comment_author .= ' ('.$comment->comment_club.')';
-        $comments[$key] = $comment;
+        if($filtered) {
+            if($_REQUEST['filter_club'] == $comment->club_id) {
+                $comment->comment_author .= ' ('.$comment->comment_club.')';
+                $result[$key] = $comment;
+            }
+        } else {
+            $comment->comment_author .= ' ('.$comment->comment_club.')';
+            $result[$key] = $comment;
+        }
     }
 
-    return $comments;
+    return $result;
 }
 
 add_filter('get_comment', 'comments_extensions_get_comment');
@@ -276,13 +291,35 @@ add_filter('get_comment', 'comments_extensions_get_comment');
  */
 function comments_extensions_get_comment($comment) {
 
-    $club_id = get_comment_meta($comment->comment_ID, 'club', true);
+    $comment->club_id = get_comment_meta($comment->comment_ID, 'club', true);
 
-    if(empty($club_id)) {
-        $club = __('Not selected.', COMMENTS_EXTENSIONS_TEXT_DOMAIN);
+    if(empty($comment->club_id)) {
+        $comment->comment_club = __('Not selected.', COMMENTS_EXTENSIONS_TEXT_DOMAIN);
     } else {
-        $club = comments_extensions_get_club_by_id($club_id);
+        $comment->comment_club = comments_extensions_get_club_by_id($comment->club_id);
     }
-    $comment->comment_club = $club;
+
     return $comment;
+}
+
+/**
+ * Add filter by clubs to manage comments page
+ * 'restrict_manage_comments' hook function
+ * @since 0.2.2
+ */
+add_filter('restrict_manage_comments','comments_extensions_restrict_manage_comments');
+function comments_extensions_restrict_manage_comments() {
+    //Club selection list
+    $club_list = comments_extensions_get_clubs_list();
+    $filtered = isset($_REQUEST['filter_club']) && !empty($_REQUEST['filter_club']);
+
+    echo '<select id="filter_club" name="filter_club">';
+    echo '<option value="">'.__('Show all clubs', COMMENTS_EXTENSIONS_TEXT_DOMAIN).'</option>';
+
+    foreach($club_list as $club_id => $club_name) {
+        echo '<option value="'.$club_id.'"';
+        echo (($filtered && $_REQUEST['filter_club'] == $club_id) ? ' selected="selected" ' : '');
+        echo '>'.$club_name.'</option>';
+    }
+    echo '</select>';
 }

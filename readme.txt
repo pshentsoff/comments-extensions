@@ -27,6 +27,11 @@ An answer to that question.
 
 == Changelog ==
 
+= 0.2.2 =
+
+    Filter to view comments for selected "club" in manage comments page
+    Updated russian localization
+
 = 0.2.1 =
 
     Settings page added
